@@ -1,0 +1,150 @@
+.pokedex {
+    height: 500px;
+    width: 700px;
+    border-radius: 10px;
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+}
+.logo {
+    width: 150px;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.pokedexLeft {
+    background-color: crimson;
+    height: 100%;
+    width: 50%;
+    overflow: hidden;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.pokedexRight {
+    background-color: crimson;
+    height: 80%;
+    width: 50%;
+    border-radius: 5px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.leftTop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 100px;
+    width: 100%;
+    border-radius: 5px 5px 10px 10px;
+    background-image: linear-gradient(145deg , rgb(255, 50, 91), rgb(197, 0, 39));
+    box-shadow: 0px 0px 10px black;
+}
+.found {
+    background-color: rgb(33, 33, 33);
+    padding: 10px;
+    width: 250px;
+    font-size: 20px;
+    color: red;
+    letter-spacing: 2px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+.found.active {
+    color: rgb(0, 196, 0);
+    
+}
+.data {
+    background-color: red;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0px 3px 0px 2px rgba(0, 0, 0, 0.75);
+    box-sizing: content-box;
+}
+.dataLight {
+    background-color: rgba(255, 255, 255, 0.75);
+    width: 15px;
+    height: 18px;
+    transform: rotate(25deg);
+    border-radius: 50%;
+    position: relative;
+    left: 10px;
+    top: 10px;
+}
+.pokedexMilieu {
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    transform: translateX(-50%);
+    height: 78%;
+    width: 30px;
+    border-radius: 20px;
+    background-image: linear-gradient(to right, rgb(255, 50, 91), rgb(166, 0, 33));
+    box-shadow: 0px 5px 5px -3px black;
+}
+.leftMid {
+    background-color: rgb(33, 33, 33);
+    height: 250px;
+    width: 85%;
+    clip-path: polygon(0% 0%, 80% 0%, 100% 20%, 100% 100%, 20% 100%, 0% 80%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.leftMid img {
+    height: 90%;
+    width: 90%;
+    object-fit: contain;
+}
+.pokemonName {
+    font-size: 26px;
+    font-weight: bold;
+}
+.leftBottom {
+    width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.divBtns{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#prev {
+    fill: black;
+}
+#next {
+    fill: black;
+}
+.btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    border-bottom: 4px solid rgba(0, 0, 0, 0.5);
+    transition: 0.1s ease;
+    box-sizing: content-box;
+    border-radius: 10px;
+}
+.btn:active {
+    border-bottom: 0px solid black;
+}
+.sprite {
+    width: 50px;
+    height: 50px;
+}
