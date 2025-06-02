@@ -15,6 +15,12 @@ function App() {
     if (inputSearch.value > 898) {
       return
     }
+    else if (inputSearch.value < 0) {
+      return
+    }
+    else if (inputSearch.value === "") {
+      return
+    }
     else {
       setCurrentId(parseInt(inputSearch.value))
       setSearch("")
@@ -68,17 +74,17 @@ function App() {
         </div>
         <div className="leftMid">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <img src={pokemon.image} alt={pokemon.name} />
+            <img key={pokemon.id} src={pokemon.image} alt={pokemon.name} />
           )): (<div className='pokemonLoading'>Loading...</div>)}
         </div>
         <div className="leftBottom">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <span className='pokemonName'><b>{pokemon.name}</b></span>
+            <span key={pokemon.id} className='pokemonName'><b>{pokemon.name}</b></span>
           )): (<div className='nameLoading'>Loading...</div>)}
           <div className='divBtns'>
             <button onClick={HandleClickPrev} className='btn prev'><svg id='prev' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <span className='pokemonName'>{`${pokemon.id}/${data.length}`}</span>
+            <span key={pokemon.id} className='pokemonName'>{`${pokemon.id}/${data.length}`}</span>
           )): (<div className='idLoading'>Loading...</div>)}
             <button onClick={HandleClickNext} className='btn next'><svg id='next' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
           </div>
@@ -88,8 +94,8 @@ function App() {
         <div className='divSearch'>
         {search === "searchId" ? (
           <form className='innerDivSearch' onSubmit={(e)=> HandleClickSearch(e)}>
-            <input type="search" name="" id='searchBar' />
-            <button onClick={HandleClickSearch} >Chercher</button>
+            <input type="number" name="" id='searchBar' />
+            <button onClick={HandleClickSearch}>Chercher</button>
             <button onClick={()=> setSearch("")}><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
           </form>)
           : (
@@ -98,19 +104,19 @@ function App() {
             <div onClick={()=> setSearch("searchId")} className='idBtn'>ID</div>
             <div className="allBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg></div>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-              <img className='sprite' src={pokemon.sprite} alt={pokemon.name} />
+              <img key={pokemon.id} className='sprite' src={pokemon.sprite} alt={pokemon.name} />
           )): (<div className='sprite'>...</div>)}
           </>
         )}
         </div>
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <>
+            <div key={pokemon.id}>
             <span>Pokemon stats :</span>
             <span>HP : {pokemon.stats.HP}</span>
             <span>Att : {pokemon.stats.attack}</span>
             <span>Def : {pokemon.stats.defense}</span>
             <span>Spe : {pokemon.stats.speed}</span>
-            </>
+            </div>
           )): "loading..."}
       </div>
       <div className='pokedexMilieu'>
