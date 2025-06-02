@@ -7,8 +7,21 @@ function App() {
   const [data, setData] = useState("")
   const [currendId, setCurrentId] = useState(1)
   const [search, setSearch] = useState("")
+  const [recherche, setRecherche] = useState("")
   
-  const handleClickPrev = ()=> {
+  const HandleClickSearch = (e)=> {
+    const inputSearch = document.querySelector("#searchBar")
+    e.preventDefault()
+    if (inputSearch.value > 898) {
+      return
+    }
+    else {
+      setCurrentId(parseInt(inputSearch.value))
+      setSearch("")
+    }
+  }
+  
+  const HandleClickPrev = ()=> {
     if (currendId <= 1) {
       return
     }
@@ -55,33 +68,38 @@ function App() {
         </div>
         <div className="leftMid">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <img src={pokemon.image} alt="" />
-          )): "loading..."}
+            <img src={pokemon.image} alt={pokemon.name} />
+          )): (<div className='pokemonLoading'>Loading...</div>)}
         </div>
         <div className="leftBottom">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
             <span className='pokemonName'><b>{pokemon.name}</b></span>
-          )): "loading..."}
+          )): (<div className='nameLoading'>Loading...</div>)}
           <div className='divBtns'>
-            <button onClick={handleClickPrev} className='btn prev'><svg id='prev' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
+            <button onClick={HandleClickPrev} className='btn prev'><svg id='prev' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
             <span className='pokemonName'>{`${pokemon.id}/${data.length}`}</span>
-          )): "loading..."}
+          )): (<div className='idLoading'>Loading...</div>)}
             <button onClick={HandleClickNext} className='btn next'><svg id='next' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
           </div>
         </div>
       </div>
       <div className="pokedexRight">
         <div className='divSearch'>
-        {search ? "" : (
+        {search === "searchId" ? (
+          <form className='innerDivSearch' onSubmit={(e)=> HandleClickSearch(e)}>
+            <input type="search" name="" id='searchBar' />
+            <button onClick={HandleClickSearch} >Chercher</button>
+            <button onClick={()=> setSearch("")}><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
+          </form>)
+          : (
           <>
             <span>Rechercher : </span>
-            <div className='searchBtn'><svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="black"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></div>
-            <div className='idBtn'>ID</div>
+            <div onClick={()=> setSearch("searchId")} className='idBtn'>ID</div>
             <div className="allBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg></div>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-              <img className='sprite' src={pokemon.sprite} alt="" />
-          )): "..."}
+              <img className='sprite' src={pokemon.sprite} alt={pokemon.name} />
+          )): (<div className='sprite'>...</div>)}
           </>
         )}
         </div>

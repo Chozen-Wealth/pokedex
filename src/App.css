@@ -128,7 +128,7 @@
 }
 .found.active {
     color: rgb(0, 196, 0);
-    animation: onTxt 0.1s ease forwards alternate  6;
+    animation: onTxt 0.1s ease forwards alternate  10;
 }
 @keyframes on {
     0% {
@@ -159,7 +159,7 @@
 }
 .data.active {
     background-color: rgb(54, 228, 49);
-    animation: on 0.1s ease forwards alternate  6;
+    animation: on 0.1s ease forwards alternate  10;
 }
 .dataLight {
     background-color: rgba(255, 255, 255, 0.75);
@@ -259,8 +259,11 @@
     width: 50px;
     height: 50px;
     position: absolute;
-    right: 0px;
+    right: 2px;
     filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .searchBtn {
     cursor: pointer;
@@ -300,6 +303,7 @@
     border-radius: 5px;
     transform: translateX(5px);
     position: relative;
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .allBtn {
     cursor: pointer;
@@ -314,4 +318,55 @@
 }
 .allBtn:hover {
     background-color: rgb(238, 238, 238);
+}
+.pokemonLoading {
+    animation: loading 0.2s ease alternate infinite;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    letter-spacing: 2px;
+}
+.nameLoading {
+    animation: loading 0.2s ease alternate infinite;
+    width: 200px;
+    padding: 6px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    letter-spacing: 2px;
+    border-radius: 10px;
+}
+.idLoading {
+    animation: loading 0.2s ease alternate infinite;
+    width: 120px;
+    padding: 6px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    letter-spacing: 2px;
+    border-radius: 10px;
+}
+@keyframes loading {
+    0% {
+        background-color: rgba(211, 211, 211, 0.5);
+    }
+    100% {
+        background-color: rgba(128, 128, 128, 0.5);
+    }
+}
+.innerDivSearch {
+    display: flex;
+    gap: 3px;
+}
+.innerDivSearch input {
+    padding: 5px;
 }
