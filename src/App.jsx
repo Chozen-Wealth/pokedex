@@ -12,8 +12,23 @@ function App() {
   const [search, setSearch] = useState("")
   const [recherche, setRecherche] = useState("")
 
+  const [anime, setAnime] = useState(false)
+
+  const HandleClickAllBtn = ()=> {
+    setSearch("catalogue")
+    setAnime(false)
+  }
+
+  const HandleClickClose = ()=> {
+    setAnime(true)
+    setTimeout(()=> {
+      setSearch("")
+    }, 300)
+  }
+
   const HandleClickCat = (element)=> {
     setCurrentId(element)
+    setAnime(true)
     setSearch("")
   }
 
@@ -88,12 +103,8 @@ function App() {
           <span className={`found ${data ? "active" : ""}`}>{data ? "DATA FOUND !" : "WAITING FOR DATA"}</span>
         </div>
         <div className="leftMid">
-          
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <>
-            {/* <div className="ombragePokemon"></div> */}
             <img key={pokemon.id} src={pokemon.image} alt={pokemon.name} />
-            </>
           )): (<div className='pokemonLoading'>identification...</div>)}
         </div>
         <div className="leftBottom">
@@ -124,7 +135,7 @@ function App() {
           <>
             <span>Rechercher : </span>
             <div onClick={()=> setSearch("searchId")} className='idBtn'>ID</div>
-            <div onClick={()=> setSearch("catalogue")} className="allBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg></div>
+            <div onClick={()=> HandleClickAllBtn()} className="allBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg></div>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
               <img key={pokemon.id} className='sprite' src={pokemon.sprite} alt={pokemon.name} />
           )): (<div className='sprite'>...</div>)}
@@ -177,14 +188,14 @@ function App() {
       </div>
     </div>
     {search === "catalogue" ? (
-      <div className="catalogue">
+      <div className={`catalogue ${anime ? "fermer" : ""}`}>
         <div className='catDivSearch'>
           <input autoFocus="yes" onKeyDown={(e)=> HandleKeyPressEscape(e)} onChange={(e)=> setRecherche(e.target.value)} type="search" name="" id="catSearch" placeholder='Entrez le nom du pokemon recherché...' />
-          <div onClick={()=> setSearch("")} className='catClose'><span className='xClose'>X</span></div>
+          <div onClick={()=> HandleClickClose()} className='catClose'><span className='xClose'>X</span></div>
         </div>
         <div className="catDivAll">
           {data ? data.filter(element => element.name.toLowerCase().includes(recherche.toLocaleLowerCase())).map(element => (
-            <div onClick={()=> {HandleClickCat(element.id)}} className='divPokemon'>
+            <div key={element.id} onClick={()=> {HandleClickCat(element.id)}} className='divPokemon'>
               <img className='divPokemonSprite' src={element.sprite} alt="" />
               {element.name}
               </div>
