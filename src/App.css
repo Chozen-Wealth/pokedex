@@ -190,7 +190,75 @@
     transform-style: preserve-3d;
     display: flex;
     align-items: center;
-    transition: transform 2s ease;
+    transition: transform 2s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+.openText {
+    position: absolute;
+    right: 50%;
+    transform: rotateY(180deg) translateX(-50%);
+    font-size: 26px;
+    color: rgba(255, 255, 255, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    animation: openTextAnim 1.5s ease forwards infinite;
+}
+@keyframes openTextAnim {
+    0% {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        color: rgba(255, 255, 255, 1);
+    }
+    100% {
+        color: rgba(255, 255, 255, 0.5);
+    }
+}
+@keyframes openSvgAnim {
+    0% {
+        fill: rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        fill: rgba(255, 255, 255, 1);
+    }
+    100% {
+        fill: rgba(255, 255, 255, 0.5);
+    }
+}
+.openText svg {
+    fill: rgba(255, 255, 255, 0.75);
+    height: 36px;
+    width: 36px;
+    animation: openSvgAnim 1.5s ease forwards infinite;
+}
+.closeOffBtn {
+ position: absolute;
+ bottom: 15px;
+ left: 50%;
+ transform: translateX(-10px);
+ cursor: pointer;
+ background-color: white;
+ border-radius: 50%;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ height: 40px;
+ width: 40px;
+ border-bottom: 4px solid rgba(0, 0, 0, 0.5);
+ box-sizing: content-box;
+ transition: 0.2s ease;
+}
+.closeOffBtn svg {
+    fill: black;
+    transition: 0.2s ease;
+}
+.closeOffBtn:hover svg{
+    fill: rgb(255, 0, 0);
+}
+.closeOffBtn:active {
+    border-bottom: 0px solid rgba(0, 0, 0, 0.5);
 }
 .divBordDroit.ouvert {
     transform: rotateY(0deg) translateZ(-20px);
@@ -332,6 +400,9 @@
     box-shadow: inset 3px 8px 10px rgba(0, 0, 0, 0.5);
     transform: translateX(-5px);
 }
+.leftMid.closed {
+    background-image: linear-gradient(145deg , rgb(31, 31, 31), rgb(33, 33, 33));
+}
 /* .ombragePokemon {
     position: absolute;
     bottom: 15px;
@@ -355,6 +426,9 @@
     color: white;
     letter-spacing: 1px;
 }
+.pokemonName.off {
+    color: transparent;
+}
 .leftBottom {
     width: 75%;
     height: 80px;
@@ -366,6 +440,9 @@
     border-radius: 10px;
     box-shadow: inset 3px 8px 10px rgba(0, 0, 0, 0.5);
     transform: translateX(-5px);
+}
+.leftBottom.closed {
+    background-image: linear-gradient(145deg , rgb(31, 31, 31), rgb(33, 33, 33));
 }
 .divBtns{
     width: 100%;

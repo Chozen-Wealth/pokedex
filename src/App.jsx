@@ -19,6 +19,9 @@ function App() {
   const [ouvert, setOuvert] = useState(false)
   
   const [anime, setAnime] = useState(false)
+
+  
+  const soundRadar = new Audio(radar)
   
   const HandleClickAllBtn = ()=> {
     setSearch("catalogue")
@@ -115,7 +118,7 @@ function App() {
 
   return (
     <>
-    <button onClick={()=> {setOuvert(!ouvert); HandleClickApi()}} className='btnOpenClose'>OUVRIR/FERMER</button>
+    {/* <button onClick={()=> {setOuvert(!ouvert); HandleClickApi()}} className='btnOpenClose'>OUVRIR/FERMER</button> */}
       <img className='bgImg' src='https://images7.alphacoders.com/662/thumb-1920-662102.png' alt=''/>
       <img className='logo' src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2560px-International_Pok%C3%A9mon_logo.svg.png" alt="" />
     <div className={`pokedex ${ouvert ? "open" : ""}`}>
@@ -146,29 +149,37 @@ function App() {
             <span className={`found notActive`}></span>
           )}
         </div>
-        <div className="leftMid">
-          {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <>
+        <div className={`leftMid ${ouvert ? "" : "closed"}`}>
+          {ouvert ? (
+            data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
+              <>
             <div key={pokemon.id} onClick={()=> Liker(pokemon.id)} className='likeBtn'>
               <svg className={`like ${favoris.includes(pokemon.id) ? "active" : ""}`} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
             </div>
             <img src={pokemon.image} alt={pokemon.name} />
             </>
           )): (
-          <div className='pokemonLoading'>identification...</div>)}
+            <div className='pokemonLoading'>identification...</div>)
+          ):""}
         </div>
-        <div className="leftBottom">
-          {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <span key={pokemon.id} className='pokemonName'><b>{pokemon.name}</b></span>
-          )): (<div className='nameLoading'>Identification...</div>)}
+        <div className={`leftBottom ${ouvert ? "" : "closed"}`}>
+          {ouvert ? (
+
+            data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
+              <span key={pokemon.id} className='pokemonName'><b>{pokemon.name}</b></span>
+            )): (<div className='nameLoading'>Identification...</div>)
+          ) : (<span className={`pokemonName ${ouvert ? "" : "off"}`}>.</span>)}
           <div className='divBtns'>
             <button onClick={HandleClickPrev} className='btn btnPrev prev'><svg id='prev' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
-            {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <span key={pokemon.id} className='pokemonName'>{`${pokemon.id}/${data.length}`}</span>
-          )): (
-          <div className='idLoading'></div>
-          // <span className='pokemonName'>?/898</span>
-          )}
+            {ouvert ? (
+
+              data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
+                <span key={pokemon.id} className='pokemonName'>{`${pokemon.id}/${data.length}`}</span>
+              )): (
+                <div className='idLoading'></div>
+                // <span className='pokemonName'>?/898</span>
+              )
+            ) : (<div className={`idLoading`}></div>)}
             <button onClick={HandleClickNext} className='btn btnNext next'><svg id='next' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
           </div>
         </div>
@@ -239,22 +250,14 @@ function App() {
                 </div>
               </div>
             </div>)}
+            <div onClick={()=> setOuvert(false)} className='closeOffBtn'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-84 31.5-156.5T197-763l56 56q-44 44-68.5 102T160-480q0 134 93 227t227 93q134 0 227-93t93-227q0-67-24.5-125T707-707l56-56q54 54 85.5 126.5T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-360v-440h80v440h-80Z"/></svg></div>
       </div>
-      <div className={`divBordDroit ${ouvert ? "ouvert" : "close"}`}>
+      <div onClick={()=> {setOuvert(true); HandleClickApi()}} className={`divBordDroit ${ouvert ? "ouvert" : "close"}`}>
+            <span className='openText'><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M419-80q-28 0-52.5-12T325-126L107-403l19-20q20-21 48-25t52 11l74 45v-328q0-17 11.5-28.5T340-760q17 0 29 11.5t12 28.5v472l-97-60 104 133q6 7 14 11t17 4h221q33 0 56.5-23.5T720-240v-160q0-17-11.5-28.5T680-440H461v-80h219q50 0 85 35t35 85v160q0 66-47 113T640-80H419ZM167-620q-13-22-20-47.5t-7-52.5q0-83 58.5-141.5T340-920q83 0 141.5 58.5T540-720q0 27-7 52.5T513-620l-69-40q8-14 12-28.5t4-31.5q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 17 4 31.5t12 28.5l-69 40Zm335 280Z"/></svg>Ouvrir</span>
             <div className="bordDroit"></div>
       </div>
       <div className="faceArriere"></div>
             </div>
-      {/* <div className='pokedexMilieu'>
-        <div className='barreDiv'>
-          <div className='barreHorizontale'></div>
-          <div className='barreHorizontale'></div>
-        </div>
-        <div className='barreDiv'>
-          <div className='barreHorizontale'></div>
-          <div className='barreHorizontale'></div>
-        </div>
-      </div> */}
     </div>
     {search === "catalogue" ? (
       <div className={`catalogue ${anime ? "fermer" : ""}`}>
