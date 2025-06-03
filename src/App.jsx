@@ -5,36 +5,45 @@ import attack from "./assets/sword.png"
 import defense from "./assets/shield.png"
 import speed from "./assets/lightning.png"
 
+import radar from "../public/radar.mp3"
+import like from "../public/like.mp3"
+import likeIcon from "./assets/like.svg"
+
 function App() {
 
   const [data, setData] = useState("")
   const [currendId, setCurrentId] = useState(1)
   const [search, setSearch] = useState("")
   const [recherche, setRecherche] = useState("")
-
+  const [favoris, setFavoris] = useState([])
+  
   const [anime, setAnime] = useState(false)
 
+  const [loading, setLoading] =useState(true)
+  
   const HandleClickAllBtn = ()=> {
     setSearch("catalogue")
     setAnime(false)
   }
-
+  
   const HandleClickClose = ()=> {
     setAnime(true)
     setTimeout(()=> {
       setSearch("")
+      setRecherche("")
     }, 300)
   }
-
+  
   const HandleClickCat = (element)=> {
     setCurrentId(element)
     setAnime(true)
     setSearch("")
   }
-
+  
   const HandleKeyPressEscape = (e)=> {
     if (e.key === 'Escape') {
       setSearch("")
+      setRecherche("")
     }
   }
   
@@ -58,7 +67,7 @@ function App() {
   
   const HandleClickPrev = ()=> {
     if (currendId <= 1) {
-      return
+      setCurrentId(898)
     }
     else {
       setCurrentId(prev => prev - 1)
@@ -66,19 +75,74 @@ function App() {
   }
   const HandleClickNext = ()=> {
     if (currendId >= data.length) {
-      return
+      setCurrentId(1)
     }
     else {
       setCurrentId(prev => prev + 1)
     }
   }
-  
+
+  const sonRadar = ()=> {
+    new Audio(radar).play()
+  }
+  const Liker = (element)=> {
+    if (favoris.includes(element)) {
+      const newFav = favoris.filter(truc => truc !== element)
+      setFavoris(newFav)
+    }
+    else {
+      new Audio(like).play()
+      setFavoris(prev => [...prev, element])
+    }
+  }
   useEffect(()=>{
+    console.log(favoris)
+  }, [favoris])
+  
+
+
+//   useEffect(() => {
+//   const radarAudio = new Audio(radar);
+//   radarAudio.loop = true; // le son tourne en boucle pendant le chargement
+//   radarAudio.play();
+
+//   axios.get("https://pokebuildapi.fr/api/v1/pokemon")
+//     .then(response => {
+//       setData(response.data);
+//       radarAudio.pause(); // stoppe le son dès qu'on a les données
+//       radarAudio.currentTime = 0; // reset au début pour les futurs appels si besoin
+//       setLoading(false);
+//     })
+//     .catch(error => { console.log(error);
+//       radarAudio.pause(); // on stoppe aussi si erreur
+//       radarAudio.currentTime = 0;
+//     });
+// }, []);
+
+const radarAudio = new Audio(radar);
+radarAudio.loop = true; // le son tourne en boucle pendant le chargement
+radarAudio.play();
+  useEffect(()=>{
+    setTimeout(() => {
+      radarAudio.play()
+    }, 10);
     axios.get("https://pokebuildapi.fr/api/v1/pokemon")
     .then(response => setData(response.data))
     .catch(error => console.log(error))
   },[])
+  useEffect(()=>{
+    if (data) {
+      radarAudio.pause()
+    }
+  }, [data])
   
+
+  
+  // useEffect(()=> {
+  //   if(loading) {
+  //     sonRadar()
+  //   }
+  // },[loading])
 
   return (
     <>
@@ -104,8 +168,14 @@ function App() {
         </div>
         <div className="leftMid">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
+            <>
+            <div onClick={()=> Liker(pokemon.id)} className='likeBtn'>
+              <svg className={`like ${favoris.includes(pokemon.id) ? "active" : ""}`} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+            </div>
             <img key={pokemon.id} src={pokemon.image} alt={pokemon.name} />
-          )): (<div className='pokemonLoading'>identification...</div>)}
+            </>
+          )): (
+          <div className='pokemonLoading'>identification...</div>)}
         </div>
         <div className="leftBottom">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
@@ -136,6 +206,7 @@ function App() {
             <span>Rechercher : </span>
             <div onClick={()=> setSearch("searchId")} className='idBtn'>ID</div>
             <div onClick={()=> HandleClickAllBtn()} className="allBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg></div>
+            <div onClick={()=> setSearch("favoris")} className="allBtn"><svg className='favoris' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg></div>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
               <img key={pokemon.id} className='sprite' src={pokemon.sprite} alt={pokemon.name} />
           )): (<div className='sprite'>...</div>)}
@@ -190,12 +261,30 @@ function App() {
     {search === "catalogue" ? (
       <div className={`catalogue ${anime ? "fermer" : ""}`}>
         <div className='catDivSearch'>
-          <input autoFocus="yes" onKeyDown={(e)=> HandleKeyPressEscape(e)} onChange={(e)=> setRecherche(e.target.value)} type="search" name="" id="catSearch" placeholder='Entrez le nom du pokemon recherché...' />
+          <input autoComplete='off' autoFocus="yes" onKeyDown={(e)=> HandleKeyPressEscape(e)} onChange={(e)=> setRecherche(e.target.value)} type="search" name="" id="catSearch" placeholder='Entrez le nom du pokemon recherché...' />
           <div onClick={()=> HandleClickClose()} className='catClose'><span className='xClose'>X</span></div>
         </div>
         <div className="catDivAll">
           {data ? data.filter(element => element.name.toLowerCase().includes(recherche.toLocaleLowerCase())).map(element => (
             <div key={element.id} onClick={()=> {HandleClickCat(element.id)}} className='divPokemon'>
+              <span className='idPokemon'>{element.id}</span>
+              <img className='divPokemonSprite' src={element.sprite} alt="" />
+              {element.name}
+              </div>
+          )) : (<div className='catLoading'>Chargmeent de la liste ...</div>)}
+        </div>
+      </div>
+    ): search === "favoris" ? (
+      <div className={`catalogue`}>
+        <div className='catDivSearch'>
+          <span className='favorisTitre'>Mes favoris : </span>
+          {/* <input autoComplete='off' autoFocus="yes" onKeyDown={(e)=> HandleKeyPressEscape(e)} onChange={(e)=> setRecherche(e.target.value)} type="search" name="" id="catSearch" placeholder='Entrez le nom du pokemon recherché...' /> */}
+          <div onClick={()=> HandleClickClose()} className='catClose closeFav'><span className='xClose'>X</span></div>
+        </div>
+        <div className="catDivAll">
+          {data ? data.filter(element => favoris.includes(element.id)).map(element => (
+            <div key={element.id} onClick={()=> {HandleClickCat(element.id)}} className='divPokemon'>
+              <span className='idPokemon'>{element.id}</span>
               <img className='divPokemonSprite' src={element.sprite} alt="" />
               {element.name}
               </div>
