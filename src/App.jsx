@@ -88,21 +88,27 @@ function App() {
           <span className={`found ${data ? "active" : ""}`}>{data ? "DATA FOUND !" : "WAITING FOR DATA"}</span>
         </div>
         <div className="leftMid">
-          <div className="ombragePokemon"></div>
+          
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
+            <>
+            {/* <div className="ombragePokemon"></div> */}
             <img key={pokemon.id} src={pokemon.image} alt={pokemon.name} />
-          )): (<div className='pokemonLoading'>Loading...</div>)}
+            </>
+          )): (<div className='pokemonLoading'>identification...</div>)}
         </div>
         <div className="leftBottom">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
             <span key={pokemon.id} className='pokemonName'><b>{pokemon.name}</b></span>
-          )): (<div className='nameLoading'>Loading...</div>)}
+          )): (<div className='nameLoading'>Identification...</div>)}
           <div className='divBtns'>
-            <button onClick={HandleClickPrev} className='btn prev'><svg id='prev' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
+            <button onClick={HandleClickPrev} className='btn btnPrev prev'><svg id='prev' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z"/></svg></button>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
             <span key={pokemon.id} className='pokemonName'>{`${pokemon.id}/${data.length}`}</span>
-          )): (<div className='idLoading'>Loading...</div>)}
-            <button onClick={HandleClickNext} className='btn next'><svg id='next' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
+          )): (
+          <div className='idLoading'></div>
+          // <span className='pokemonName'>?/898</span>
+          )}
+            <button onClick={HandleClickNext} className='btn btnNext next'><svg id='next' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg></button>
           </div>
         </div>
       </div>
@@ -142,7 +148,20 @@ function App() {
                 </div>
               </div>
             </div>
-          )): "loading..."}
+          )): (<div className='divStats' >
+              <span className='statsTitle'>Pokemon stats :</span>
+              <div className='contenuStats'>
+                <div className="contenuStatsLeft">
+                  <span className='stat'><span className='statHealth'>+</span>00</span>
+                  <span className='stat'><img className='statIcon' src={attack} alt="" />00</span>
+                  <span className='stat'><img className='statIcon' src={defense} alt="" />00</span>
+                  <span className='stat'><img className='statIcon' src={speed} alt="" />00</span>
+                </div>
+                <div className="contenuStatsRight">
+                    <span className="element"><span className='elementName'>Element</span></span>
+                </div>
+              </div>
+            </div>)}
       </div>
       <div className='pokedexMilieu'>
         <div className='barreDiv'>
@@ -169,7 +188,7 @@ function App() {
               <img className='divPokemonSprite' src={element.sprite} alt="" />
               {element.name}
               </div>
-          )) : "Loading..."}
+          )) : (<div className='catLoading'>Chargmeent de la liste ...</div>)}
         </div>
       </div>
     ): ""}
