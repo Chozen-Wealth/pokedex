@@ -37,6 +37,7 @@ function App() {
     setCurrentId(element)
     setAnime(true)
     setSearch("")
+    setRecherche("")
   }
   
   const HandleKeyPressEscape = (e)=> {
@@ -99,20 +100,27 @@ function App() {
     console.log(favoris)
   }, [favoris])
   
-  // IMPORTATION DE L'API
-  useEffect(()=>{
-      axios.get("https://pokebuildapi.fr/api/v1/pokemon")
+
+  const HandleClickApi = ()=> {
+    axios.get("https://pokebuildapi.fr/api/v1/pokemon")
       .then(response => setData(response.data))
       .catch(error => console.log(error))
-  },[])
+  }
+  // IMPORTATION DE L'API
+  // useEffect(()=>{
+  //     axios.get("https://pokebuildapi.fr/api/v1/pokemon")
+  //     .then(response => setData(response.data))
+  //     .catch(error => console.log(error))
+  // },[])
 
   return (
     <>
-    <button onClick={()=> setOuvert(!ouvert)} className='btnOpenClose'>OUVRIR/FERMER</button>
+    <button onClick={()=> {setOuvert(!ouvert); HandleClickApi()}} className='btnOpenClose'>OUVRIR/FERMER</button>
       <img className='bgImg' src='https://images7.alphacoders.com/662/thumb-1920-662102.png' alt=''/>
       <img className='logo' src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2560px-International_Pok%C3%A9mon_logo.svg.png" alt="" />
     <div className={`pokedex ${ouvert ? "open" : ""}`}>
       <div className='pokedexLeft'>
+
         <div className="leftTop">
           <div className='screw b1'>/</div>
           <div className='screw b2'>/</div>
@@ -120,22 +128,31 @@ function App() {
           <div className='screw b4'>/</div>
           <div className='screw b5'>/</div>
           <div className='screw b6'>/</div>
-          <div className='screw b7'>/</div>
-          <div className='screw b8'>/</div>
-          <div className='screw b9'>/</div>
-          <div className='screw b10'>/</div>
-          <div className={`data ${data ? "active" : ""}`}>
+          {/* Boule lumière */}
+          {ouvert ? (
+          <div className={`data ${data ? "active" : "notActive"}`}>
             <div className='dataLight'></div>
           </div>
-          <span className={`found ${data ? "active" : ""}`}>{data ? "DATA FOUND !" : "WAITING FOR DATA"}</span>
+
+          ): (
+            <div className={`data`}>
+            <div className='dataLight'></div>
+          </div>
+          )}
+          {/* Texte Found */}
+          {ouvert ? (
+            <span className={`found ${data ? "active" : ""}`}>{data ? "DATA FOUND !" : "WAITING FOR DATA"}</span>
+          ): (
+            <span className={`found notActive`}></span>
+          )}
         </div>
         <div className="leftMid">
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
             <>
-            <div onClick={()=> Liker(pokemon.id)} className='likeBtn'>
+            <div key={pokemon.id} onClick={()=> Liker(pokemon.id)} className='likeBtn'>
               <svg className={`like ${favoris.includes(pokemon.id) ? "active" : ""}`} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
             </div>
-            <img key={pokemon.id} src={pokemon.image} alt={pokemon.name} />
+            <img src={pokemon.image} alt={pokemon.name} />
             </>
           )): (
           <div className='pokemonLoading'>identification...</div>)}
@@ -168,6 +185,10 @@ function App() {
         </div>
       </div>
       <div className={`pokedexRight ${ouvert ? "ouvert" : "close"}`}>
+        <div className='screw b7'>/</div>
+          <div className='screw b8'>/</div>
+          <div className='screw b9'>/</div>
+          <div className='screw b10'>/</div>
         <div className='divSearch'>
         {search === "searchId" ? (
           <form className='innerDivSearch' onSubmit={(e)=> HandleClickSearch(e)}>
