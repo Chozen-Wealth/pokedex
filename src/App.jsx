@@ -18,8 +18,6 @@ function App() {
   const [favoris, setFavoris] = useState([])
   
   const [anime, setAnime] = useState(false)
-
-  const [loading, setLoading] =useState(true)
   
   const HandleClickAllBtn = ()=> {
     setSearch("catalogue")
@@ -65,6 +63,8 @@ function App() {
     }
   }
   
+
+  // 
   const HandleClickPrev = ()=> {
     if (currendId <= 1) {
       setCurrentId(898)
@@ -82,9 +82,8 @@ function App() {
     }
   }
 
-  const sonRadar = ()=> {
-    new Audio(radar).play()
-  }
+
+  // Ajout aux favoris
   const Liker = (element)=> {
     if (favoris.includes(element)) {
       const newFav = favoris.filter(truc => truc !== element)
@@ -99,50 +98,12 @@ function App() {
     console.log(favoris)
   }, [favoris])
   
-
-
-//   useEffect(() => {
-//   const radarAudio = new Audio(radar);
-//   radarAudio.loop = true; // le son tourne en boucle pendant le chargement
-//   radarAudio.play();
-
-//   axios.get("https://pokebuildapi.fr/api/v1/pokemon")
-//     .then(response => {
-//       setData(response.data);
-//       radarAudio.pause(); // stoppe le son dès qu'on a les données
-//       radarAudio.currentTime = 0; // reset au début pour les futurs appels si besoin
-//       setLoading(false);
-//     })
-//     .catch(error => { console.log(error);
-//       radarAudio.pause(); // on stoppe aussi si erreur
-//       radarAudio.currentTime = 0;
-//     });
-// }, []);
-
-const radarAudio = new Audio(radar);
-radarAudio.loop = true; // le son tourne en boucle pendant le chargement
-radarAudio.play();
+  // IMPORTATION DE L'API
   useEffect(()=>{
-    setTimeout(() => {
-      radarAudio.play()
-    }, 10);
     axios.get("https://pokebuildapi.fr/api/v1/pokemon")
     .then(response => setData(response.data))
     .catch(error => console.log(error))
   },[])
-  useEffect(()=>{
-    if (data) {
-      radarAudio.pause()
-    }
-  }, [data])
-  
-
-  
-  // useEffect(()=> {
-  //   if(loading) {
-  //     sonRadar()
-  //   }
-  // },[loading])
 
   return (
     <>
