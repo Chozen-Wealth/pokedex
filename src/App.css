@@ -10,6 +10,15 @@
     align-items: flex-end;
     gap: 3px;
 }
+.bgImg {
+    width: 110vw;
+    height: 110vh;
+    object-fit: cover;
+    position: absolute;
+    top: -5vh;
+    left: -5vw;
+    filter: blur(7px);
+}
 .logo {
     width: 150px;
     position: fixed;
@@ -211,6 +220,9 @@
     box-shadow: inset 3px 8px 10px rgba(0, 0, 0, 0.5);
     transform: translateX(-5px);
 }
+.ombragePokemon {
+
+}
 .leftMid img {
     height: 90%;
     width: 90%;
@@ -304,6 +316,7 @@
     transform: translateX(5px);
     position: relative;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+    height: 50px;
 }
 .allBtn {
     cursor: pointer;
@@ -368,5 +381,179 @@
     gap: 3px;
 }
 .innerDivSearch input {
+    padding: 5px;
+}
+.divStats {
+    background-color: rgb(240, 240, 240);
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    transform: translateX(5px);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.statsTitle {
+    background-color: white;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+.statIcon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    opacity: 0.7;
+}
+.stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 60px;
+}
+.statHealth {
+    font-size: 26px;
+    font-weight: bold;
+    opacity: 0.7;
+    height: 20px;
+    margin-left: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contenuStats {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+.contenuStatsLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.contenuStatsRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding-right: 10px;
+}
+.element {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: relative;
+    overflow: hidden;
+}
+.elementName {
+    position: relative;
+}
+.elementImg {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    position: relative;
+}
+.elementImgBg {
+    position: absolute;
+    object-fit: cover;
+    width: 130%;
+    opacity: 0.2;
+}
+.catalogue {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 600px;
+    width: 760px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 10px;
+}
+.catDivSearch {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0px 15px 0px;
+    gap: 10px;
+}
+#catSearch {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+}
+#catSearch:focus {
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.catDivAll {
+    background-color: rgb(240, 240, 240);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow: auto;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.catClose {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.catClose:hover {
+    background-color: rgb(238, 238, 238);
+}
+.xClose {
+    font-size: 20px;
+    transform: scaleY(90%);
+}
+.divPokemon {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    width: 110px;
+    height: 110px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
+}
+.divPokemon:hover {
+    background-color: rgb(245, 245, 245);
+}
+.divPokemonSprite {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     padding: 5px;
 }

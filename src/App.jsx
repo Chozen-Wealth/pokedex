@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
+import attack from "./assets/sword.png"
+import defense from "./assets/shield.png"
+import speed from "./assets/lightning.png"
 
 function App() {
 
@@ -8,6 +11,17 @@ function App() {
   const [currendId, setCurrentId] = useState(1)
   const [search, setSearch] = useState("")
   const [recherche, setRecherche] = useState("")
+
+  const HandleClickCat = (element)=> {
+    setCurrentId(element)
+    setSearch("")
+  }
+
+  const HandleKeyPressEscape = (e)=> {
+    if (e.key === 'Escape') {
+      setSearch("")
+    }
+  }
   
   const HandleClickSearch = (e)=> {
     const inputSearch = document.querySelector("#searchBar")
@@ -53,6 +67,7 @@ function App() {
 
   return (
     <>
+      <img className='bgImg' src='https://images7.alphacoders.com/662/thumb-1920-662102.png' alt=''/>
       <img className='logo' src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/2560px-International_Pok%C3%A9mon_logo.svg.png" alt="" />
     <div className='pokedex'>
       <div className='pokedexLeft'>
@@ -73,6 +88,7 @@ function App() {
           <span className={`found ${data ? "active" : ""}`}>{data ? "DATA FOUND !" : "WAITING FOR DATA"}</span>
         </div>
         <div className="leftMid">
+          <div className="ombragePokemon"></div>
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
             <img key={pokemon.id} src={pokemon.image} alt={pokemon.name} />
           )): (<div className='pokemonLoading'>Loading...</div>)}
@@ -94,7 +110,7 @@ function App() {
         <div className='divSearch'>
         {search === "searchId" ? (
           <form className='innerDivSearch' onSubmit={(e)=> HandleClickSearch(e)}>
-            <input type="number" name="" id='searchBar' />
+            <input autoFocus="true" onKeyDown={(e)=> HandleKeyPressEscape(e)} type="number" name="" id='searchBar' autoComplete='off' />
             <button onClick={HandleClickSearch}>Chercher</button>
             <button onClick={()=> setSearch("")}><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
           </form>)
@@ -102,7 +118,7 @@ function App() {
           <>
             <span>Rechercher : </span>
             <div onClick={()=> setSearch("searchId")} className='idBtn'>ID</div>
-            <div className="allBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg></div>
+            <div onClick={()=> setSearch("catalogue")} className="allBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg></div>
             {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
               <img key={pokemon.id} className='sprite' src={pokemon.sprite} alt={pokemon.name} />
           )): (<div className='sprite'>...</div>)}
@@ -110,12 +126,21 @@ function App() {
         )}
         </div>
           {data ? data.filter(pokemon => pokemon.id === currendId).map(pokemon => (
-            <div key={pokemon.id}>
-            <span>Pokemon stats :</span>
-            <span>HP : {pokemon.stats.HP}</span>
-            <span>Att : {pokemon.stats.attack}</span>
-            <span>Def : {pokemon.stats.defense}</span>
-            <span>Spe : {pokemon.stats.speed}</span>
+            <div key={pokemon.id} className='divStats' >
+              <span className='statsTitle'>Pokemon stats :</span>
+              <div className='contenuStats'>
+                <div className="contenuStatsLeft">
+                  <span className='stat'><span className='statHealth'>+</span> {pokemon.stats.HP}</span>
+                  <span className='stat'><img className='statIcon' src={attack} alt="" />{pokemon.stats.attack}</span>
+                  <span className='stat'><img className='statIcon' src={defense} alt="" />{pokemon.stats.defense}</span>
+                  <span className='stat'><img className='statIcon' src={speed} alt="" />{pokemon.stats.speed}</span>
+                </div>
+                <div className="contenuStatsRight">
+                  {pokemon.apiTypes.map(element => (
+                    <span key={element.name} className={`element ${element.name}`}><img className='elementImg' src={element.image} alt='' /><img className='elementImgBg' src={element.image} alt='' /> <span className='elementName'>{element.name}</span></span>
+                  ))}
+                </div>
+              </div>
             </div>
           )): "loading..."}
       </div>
@@ -132,6 +157,22 @@ function App() {
         </div>
       </div>
     </div>
+    {search === "catalogue" ? (
+      <div className="catalogue">
+        <div className='catDivSearch'>
+          <input autoFocus="yes" onKeyDown={(e)=> HandleKeyPressEscape(e)} onChange={(e)=> setRecherche(e.target.value)} type="search" name="" id="catSearch" placeholder='Entrez le nom du pokemon recherché...' />
+          <div onClick={()=> setSearch("")} className='catClose'><span className='xClose'>X</span></div>
+        </div>
+        <div className="catDivAll">
+          {data ? data.filter(element => element.name.toLowerCase().includes(recherche.toLocaleLowerCase())).map(element => (
+            <div onClick={()=> {HandleClickCat(element.id)}} className='divPokemon'>
+              <img className='divPokemonSprite' src={element.sprite} alt="" />
+              {element.name}
+              </div>
+          )) : "Loading..."}
+        </div>
+      </div>
+    ): ""}
     </>
   )
 }
